@@ -1,0 +1,128 @@
+1. Detect cycle in singly linked list and return the start of the linked list.
+
+--------------------------------------------------------------------------------------------------------------
+Single File Programming Question
+Detect Start of Cycle in Customer Service 
+
+
+
+A customer service system in Chennai maintains a linked list of service requests. Due to a software bug, some requests form a loop (cycle) — meaning after a certain request, the system keeps repeating the same sequence.
+
+
+
+Your task is to:
+
+detect if a cycle exists
+if yes → find the exact node where the cycle begins
+if no → return -1
+Input format :
+First line: integer n — number of nodes
+Second line: n space-separated integers (node values)
+Third line: integer pos — index where tail connects -1 → no cycle otherwise → 0-based index of cycle start
+Output format :
+Print the value of node where cycle begins
+If no cycle exists → print -1
+Code constraints :
+0 <= n <= 10^4
+-10^5 <= node.val <= 10^5
+pos is -1 or valid index
+Sample test cases :
+Input 1 :
+4
+3 2 0 -4
+1
+Output 1 :
+2
+Input 2 :
+2
+1 2
+0
+Output 2 :
+1
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+----------------------------------------------------------------------------------------------------------------------
+CODE:
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
+// You are using Java-17version 
+class Main{
+    public static ListNode detectCycle(ListNode head) {
+        // Floyds cycle detection algorithm
+        // To find the cycle in linkedlist
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                slow = head;
+                if (slow != fast) {
+                    while (slow.next != fast.next) {
+                        slow = slow.next;
+                        fast = fast.next;
+                    }
+                    return slow.next;
+                }
+                else {
+                    while (fast.next != slow) {
+                        fast = fast.next;
+                    }
+                    return slow;
+                }
+            }
+        }
+        
+        // Find startNode
+        // slow = head;
+        
+        return null;
+    }
+ public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        if (n == 0) {
+            System.out.println(-1);
+            return;
+        }
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        int pos = sc.nextInt();
+
+        ListNode[] nodes = new ListNode[n];
+
+        for (int i = 0; i < n; i++)
+            nodes[i] = new ListNode(arr[i]);
+
+        for (int i = 0 ; i < n - 1; i++)
+            nodes[i].next = nodes[i + 1];
+
+        if (pos != -1)
+            nodes[n - 1].next = nodes[pos];
+
+        ListNode result = detectCycle(nodes[0]);
+
+        if (result != null)
+            System.out.println(result.val);
+        else
+            System.out.println(-1);
+    }
+}
+
+
+
