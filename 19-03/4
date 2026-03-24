@@ -1,0 +1,115 @@
+Single File Programming Question
+Find Two Products Matching a Target Price
+
+
+
+A billing system in a supermarket in Chennai records prices of items scanned by a cashier. Sometimes, the cashier needs to quickly find two items whose total price equals a specific target value (for offers or validation).
+
+
+
+Given an integer array nums representing item prices and an integer target, find two different indices such that:
+
+
+
+nums[i] + nums[j] = target
+
+
+
+Return the indices of these two items.
+
+Input format :
+First line contains integer n — size of the array
+Second line contains n space-separated integers
+Third line contains integer target
+Output format :
+Print two space-separated integers — indices of the two numbers
+If no solution exists, print -1 -1
+Code constraints :
+2 <= n <= 10^4
+-10^9 <= nums[i] <= 10^9
+-10^9 <= target <= 10^9
+Exactly one valid solution exists in original problem
+You cannot use the same element twice
+Sample test cases :
+Input 1 :
+4
+2 7 11 15
+9
+Output 1 :
+0 1
+Input 2 :
+4
+2 7 11 15
+9
+Output 2 :
+0 1
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+
+*************************************
+SOLUTION
+*************************************
+🔹 Core Idea
+This is the classic Two Sum problem
+We need:
+nums[i] + nums[j] = target
+Instead of checking all pairs → store what we need
+🔹 Key Trick (Most Important)
+
+👉 For each number:
+
+Instead of searching its pair
+Compute what is missing
+needed = target - current
+🔹 Optimized Approach (HashMap)
+Step-by-step thinking:
+1. Create a map
+Store: value → index
+2. Traverse array once
+
+For each element nums[i]:
+
+Find:
+
+needed = target - nums[i]
+Check:
+If needed already in map → ✅ answer found
+Return indices
+3. Otherwise
+Store current number in map
+
+*************************************
+CODE
+*************************************
+
+// You are using Java-17version 
+import java.util.*;
+class Main{
+    public static void main(String args[]){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int target =  sc.nextInt();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int needed = target - arr[i];
+            if (map.containsKey(needed)) {
+                System.out.println(map.get(needed) + " " + i);
+                return;
+            }
+            map.put(arr[i], i);
+        }
+        
+        System.out.println(-1 + " " + -1);
+    }
+}
+
+
+
+
+
+
